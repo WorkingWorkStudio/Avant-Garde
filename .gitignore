@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# Other
+.vs
+
 # Visual Studio extensions
 *.sln
 
@@ -9,6 +12,7 @@
 *.lo
 *.o
 *.obj
+x64
 
 # Precompiled Headers
 *.gch
@@ -28,6 +32,7 @@
 *.la
 *.a
 *.lib
+lib
 
 # Executables
 *.exe
