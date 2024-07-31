@@ -1,4 +1,4 @@
-# VulkenProject
+# VulkanProject
 
 ## Getting Started
 Make sure to install all of the libraries listed in the [Vulken Tutorial](https://vulkan-tutorial.com/Development_environment)\
