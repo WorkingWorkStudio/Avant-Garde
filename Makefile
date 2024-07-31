@@ -1,5 +1,5 @@
 CFLAGS = -std=c++17 -O2
-LDFLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -Xrandr - lXi
+LDFLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr - lXi
 
 OpenTest: main.cpp
 	g++ $(CFLAGS) *.cpp -o a.out $(LDFLAGS)
