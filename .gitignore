@@ -9,6 +9,7 @@
 
 # Compiled Object files
 *.slo
+*.spv
 *.lo
 *.o
 *.obj
