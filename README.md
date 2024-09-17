@@ -1,3 +1,21 @@
+# Avant-garde
+This is a [RCOS](https://handbook.rcos.io/) Project.
+
+### Compatibility
+| OS | Versions Supported | Status |
+| - | :-: | :-: |
+| Windows 11 | ❓ | 🚫 |
+| MacOS | Sonoma 14.6.x | 🚫 |
+| Linux | ❓ | 🚫 |
+
+### Installation Instructions
+1. Clone repository
+2. Within repository root directory, run the following commands:
+```
+To be determined.
+``` 
+👍 You are ready for development!
+
 # VulkanProject
 
 ## Getting Started
@@ -8,7 +26,7 @@ NOTE: To compile, update the path in shaders/compile-shaders.<bat/sh> for the gl
 - For linux: depends on where you placed it
 
 ### Windows
-Install visual stuio 2022\
+Install visual studio 2022\
 Install libraries listed in the tutorial\
 Click open existing project\
 Click the run button
