@@ -4,7 +4,7 @@ This is a [RCOS](https://handbook.rcos.io/) Project.
 ### Compatibility
 | OS | Versions Supported | Status |
 | - | :-: | :-: |
-| Windows 11 | ❓ | 🚫 |
+| Windows 11 | v. 23H2 | 🚫 |
 | MacOS | Sonoma 14.6.x | 🚫 |
 | Linux | ❓ | 🚫 |
 
