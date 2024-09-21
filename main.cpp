@@ -27,6 +27,7 @@ const std::vector<const char*> deviceExtensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
+#define VK_INSTANCE_LAYERS = "VK_LAYER_MESA_overlay";
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
@@ -134,7 +135,7 @@ private:
             glfwPollEvents();
             drawFrame();
         }
-        // vkDeviceWaitIdle(device);
+        vkDeviceWaitIdle(device);
     }
 
     void drawFrame() {
@@ -390,8 +391,8 @@ private:
     }
 
     void createGraphicsPipline() {
-        auto vertShaderCode = readFile("shaders/vert.spv");
-        auto fragShaderCode = readFile("shaders/frag.spv");
+        auto vertShaderCode = readFile("vert.spv");
+        auto fragShaderCode = readFile("frag.spv");
         VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 
@@ -706,7 +707,7 @@ private:
         }
 
         vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
-        vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &graphicsQueue);
+        vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
     }
 
     void createSwapChain() {

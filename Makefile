@@ -1,10 +1,10 @@
 CFLAGS = -std=c++17 -O2
-LDFLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi
+LDFLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi -g
 
-OpenTest: main.cpp
-	glslc shaders/shader.vert -o shaders/vert.spv
-	glslc shaders/shader.frag -o shaders/frag.spv
-	g++ $(CFLAGS) *.cpp -o a.out $(LDFLAGS) -g
+OpenTest: ./src/main.cpp
+	glslc src/shaders/shader.vert -o vert.spv
+	glslc src/shaders/shader.frag -o frag.spv
+	g++ $(CFLAGS) src/*.cpp -o a.out $(LDFLAGS)
 
 .PHONY: test clean
 
@@ -14,4 +14,4 @@ test: OpenTest
 clean:
 	rm -f a.out
 	rm -rf *.o
-	rm -rf ./shaders/*.spv
+	rm -rf *.spv
