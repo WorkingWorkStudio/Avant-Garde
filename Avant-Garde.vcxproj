@@ -22,9 +22,9 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{59032795-67d3-4820-ac9e-68aa3895198d}</ProjectGuid>
-    <RootNamespace>AvantGarde</RootNamespace>
+    <RootNamespace>Avant-Garde</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>AvantGarde</ProjectName>
+    <ProjectName>Avant-Garde</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -145,10 +145,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\render\drawing.cpp" />
+    <ClCompile Include="src\render\mainLoop.cpp" />
+    <ClCompile Include="src\render\pipline.cpp" />
+    <ClCompile Include="src\render\presentation.cpp" />
+    <ClCompile Include="src\render\setupVulkan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader.frag" />
     <None Include="src\shaders\shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\render\AvantGardeRender.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
