@@ -1,2 +1,2 @@
-/home/user/VulkanSDK/x.x.x.x/x86_64/bin/glslc shaders/shader.vert -o vert.spv
-/home/user/VulkanSDK/x.x.x.x/x86_64/bin/glslc shaders/shader.frag -o frag.spv
+glslc shader.vert -o vert.spv
+glslc shader.frag -o frag.spv
