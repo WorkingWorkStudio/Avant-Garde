@@ -43,7 +43,7 @@ TBA
 ## Monitor System Stats with an overlay
 For linux systems:
 - `VK_INSTANCE_LAYERS='VK_LAYER_MESA_OVERLAY' /path/to/app` ( Only works with amd gpus? )
-- `mangohud /path/to/app`
+- `mangohud /path/to/app`\
 For windows systems:
 - PresentMon (by Intel)
 - Ocat
