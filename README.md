@@ -1,6 +1,8 @@
 # Avant-garde
 This is a [RCOS](https://handbook.rcos.io/) Project.
 
+Feel free to take a look at our [Kanban](https://docs.google.com/drawings/d/1AZ96UuH22W9aF4FDUhVJ3GPxuHaQv0s0LfwgRhOCg70/edit?usp=sharing) board for task management.
+
 ### Compatibility
 | OS | Versions Supported | Status |
 | - | :-: | :-: |
