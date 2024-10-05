@@ -6,7 +6,7 @@ Feel free to take a look at our [Kanban](https://docs.google.com/drawings/d/1AZ9
 ### Compatibility
 | OS | Versions Supported | Status |
 | - | :-: | :-: |
-| Windows 11 | v. 23H2 | 🚫 |
+| Windows 11 | 23H2 | 🚫 |
 | MacOS | Sonoma 14.6.x | 🚫 |
 | Linux | ❓ | 🚫 |
 
