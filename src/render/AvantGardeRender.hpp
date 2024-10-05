@@ -95,7 +95,10 @@ private:
 
     uint32_t currentFrame = 0;
 
+    bool framebufferResized = false;
+
     // setupVulkan.cpp
+    static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
     void initWindow();
     void initVulkan();
     void createInstance();
@@ -113,6 +116,7 @@ private:
     );
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     bool isDeviceSuitable(VkPhysicalDevice device);
+    bool checkDeviceExtensionSupport(VkPhysicalDevice device);
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
 
@@ -122,7 +126,8 @@ private:
     void createSurface();
     void createSwapChain();
     void createImageViews();
-    bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+    void recreateSwapChain();
+    void cleanupSwapChain();
     SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
     VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& avaliableForm);
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> & avaliablePresentModes);
@@ -134,7 +139,7 @@ private:
     static std::vector<char> readFile(const std::string& filename);
     VkShaderModule createShaderModule(const std::vector<char>& code);
 
-    
+
     // Drawing
     void createFramebuffers();
     void createCommandPool();
