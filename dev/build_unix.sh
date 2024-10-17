@@ -1,5 +1,8 @@
+source setup-env.sh
 mkdir -p ../build
 cmake -S . -B ../build
 cd ../build
 make
-./Avant-Garde
+make Shaders
+cd ..
+./build/Avant-Garde
