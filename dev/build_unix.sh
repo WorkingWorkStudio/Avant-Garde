@@ -1,4 +1,4 @@
-source setup-env.sh
+source setup_env.sh
 mkdir -p ../build
 cmake -S . -B ../build
 cd ../build
