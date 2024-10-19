@@ -7,16 +7,39 @@ Feel free to take a look at our [Kanban](https://docs.google.com/drawings/d/1AZ9
 | OS | Versions Supported | Status |
 | - | :-: | :-: |
 | Windows 11 | 23H2 | 🚫 |
-| MacOS | Sonoma 14.6.x | 🚫 |
+| MacOS | Sonoma 14.6.x | ✔️ |
 | Linux | ❓ | 🚫 |
 
-### Installation Instructions
-1. Clone repository
-2. Within repository root directory, run the following commands:
+# Installation Instructions
+
+### Windows
+TBD
+
+### MacOS
+Using any code editor and terminal running shell script:
+1. Install Homebrew if you don't already have it:
 ```
-To be determined.
-``` 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+2. Install CMake & GLFW with Brew:
+```
+brew install cmake glfw
+```
+3. Install [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh`.
+4. Clone repository
+5. From the repository's root directory, run the following commands:
+```
+cd dev
+./build_unix.sh
+```
+6. You may need to give `build_unix.sh` some permission:
+```
+chmod +x build_unix.sh
+```
 👍 You are ready for development!
+
+### Linux
+TBD
 
 # VulkanProject
 
