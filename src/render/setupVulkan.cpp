@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <set>
+#include <vulkan/vulkan_core.h>
 #include "AvantGardeRender.hpp"
 
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
@@ -21,11 +22,17 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
     }
 }
 
+void AvantGardeRender::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
+    auto app = reinterpret_cast<AvantGardeRender*>(glfwGetWindowUserPointer(window));
+    app->framebufferResized = true;
+}
+
 void AvantGardeRender::initWindow() {
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+    glfwSetWindowUserPointer(window, this);
+    glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 }
 
 void AvantGardeRender::initVulkan() {
@@ -37,9 +44,15 @@ void AvantGardeRender::initVulkan() {
     createSwapChain();
     createImageViews();
     createRenderPass();
-    createGraphicsPipline();
+    createDescriptorSetLayout();
+    createGraphicsPipeline();
     createFramebuffers();
     createCommandPool();
+    createVertexBuffer();
+    createIndexBuffer();
+    createUniformBuffers();
+    createDescriptorPool();
+    createDescriptorSets();
     createCommandBuffers();
     createSyncObjects();
 }
@@ -92,14 +105,14 @@ void AvantGardeRender::createInstance() {
         createInfo.pNext = nullptr;
     }
     //Lists out the avaliable extensions
-    // uint32_t extensionCount = 0;
-    // vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-    // std::vector<VkExtensionProperties> extensions(extensionCount);
-    // vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
-    // std::cout << "Avaliable Extensions" << std::endl;
-    // for (const VkExtensionProperties& extension : extensions) {
-    //     std::cout << "\t" << extension.extensionName << std::endl;
-    // }
+    uint32_t extensionCount = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+    std::vector<VkExtensionProperties> list_extensions(extensionCount);
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, list_extensions.data());
+    std::cout << "Avaliable Extensions" << std::endl;
+    for (const VkExtensionProperties& list_extension : list_extensions) {
+        std::cout << "\t" << list_extension.extensionName << std::endl;
+    }
     //Creates the vulkan instance
     if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
         throw std::runtime_error("FAILED TO CREATE VULKAN INSTANCE");
@@ -124,6 +137,14 @@ void AvantGardeRender::pickPhysicalDevice() {
     }
     std::vector<VkPhysicalDevice> devices(deviceCount);
     vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+    std::cout << "Number of devices: " << deviceCount << std::endl;
+    std::cout << "physical devices: " << std::endl;
+    // Lists out the phyiscal devices
+    for (const VkPhysicalDevice& device : devices) {
+        VkPhysicalDeviceProperties properties;
+        vkGetPhysicalDeviceProperties(device, &properties);
+        std::cout << "\t" << properties.deviceName << std::endl;
+    }
     // This will pick the first gpu that supports vulkan
     // We can add later to choose gpu that supports vulkan
     for (const VkPhysicalDevice& device : devices) {
@@ -136,8 +157,10 @@ void AvantGardeRender::pickPhysicalDevice() {
     if (physicalDevice == VK_NULL_HANDLE) {
         throw std::runtime_error("failed to find a suitable GPU");
     }
+    VkPhysicalDeviceProperties properties;
+    vkGetPhysicalDeviceProperties(physicalDevice, &properties);
+    std::cout << "physical device chosen: " << properties.deviceName << std::endl;
 }
-
 
 void AvantGardeRender::createLogicalDevice() {
     QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
@@ -156,6 +179,10 @@ void AvantGardeRender::createLogicalDevice() {
     }
 
     VkPhysicalDeviceFeatures deviceFeatures{};
+
+#ifdef LINE
+    deviceFeatures.fillModeNonSolid = VK_TRUE;
+#endif
 
     VkDeviceCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -183,7 +210,6 @@ void AvantGardeRender::createLogicalDevice() {
     vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 }
 
-
 // Validation layers help with debuging errors in the code
 bool AvantGardeRender::checkValidationLayerSupport() {
     uint32_t layerCount;
@@ -207,7 +233,6 @@ bool AvantGardeRender::checkValidationLayerSupport() {
     return true;
 }
 
-
 std::vector<const char*> AvantGardeRender::getRequiredExtensions() {
     uint32_t glfwExtensionCount = 0;
     const char** glfwExtensions;
@@ -221,7 +246,6 @@ std::vector<const char*> AvantGardeRender::getRequiredExtensions() {
     
     return extensions;
 }
-
 
 VKAPI_ATTR VkBool32 VKAPI_CALL AvantGardeRender::debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -237,7 +261,6 @@ VKAPI_ATTR VkBool32 VKAPI_CALL AvantGardeRender::debugCallback(
     return VK_FALSE;
 }
 
-
 void AvantGardeRender::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
     createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -247,7 +270,6 @@ void AvantGardeRender::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCre
         VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
     createInfo.pfnUserCallback = debugCallback;
 }
-
 
 bool AvantGardeRender::isDeviceSuitable(VkPhysicalDevice device) {
     QueueFamilyIndices indices = findQueueFamilies(device);
@@ -260,6 +282,20 @@ bool AvantGardeRender::isDeviceSuitable(VkPhysicalDevice device) {
     }
 
     return indices.isComplete() && extensionsSupported && swapChainAdequate;
+}
+
+bool AvantGardeRender::checkDeviceExtensionSupport(VkPhysicalDevice device) {
+    uint32_t extensionCount;
+    vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+    std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+    vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+    std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+    
+    for (const VkExtensionProperties& extension : availableExtensions) {
+        requiredExtensions.erase(extension.extensionName);
+    }
+    return requiredExtensions.empty();
 }
 
 QueueFamilyIndices AvantGardeRender::findQueueFamilies(VkPhysicalDevice device) {
@@ -293,6 +329,27 @@ QueueFamilyIndices AvantGardeRender::findQueueFamilies(VkPhysicalDevice device) 
 }
 
 void AvantGardeRender::cleanup() {
+    cleanupSwapChain();
+
+    vkDestroyPipeline(device, graphicsPipeline, nullptr);
+    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+    vkDestroyRenderPass(device, renderPass, nullptr);
+    
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        vkDestroyBuffer(device, uniformBuffers[i], nullptr);
+        vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
+    }
+
+    vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+
+    vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
+
+    vkDestroyBuffer(device, indexBuffer, nullptr);
+    vkFreeMemory(device, indexBufferMemory, nullptr);
+
+    vkDestroyBuffer(device, vertexBuffer, nullptr);
+    vkFreeMemory(device, vertexBufferMemory, nullptr);
+
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
         vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
         vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
@@ -300,22 +357,17 @@ void AvantGardeRender::cleanup() {
     }
 
     vkDestroyCommandPool(device, commandPool, nullptr);
-    for ( auto framebuffer : swapChainFramebuffers) {
-        vkDestroyFramebuffer(device, framebuffer, nullptr);
-    }
-    vkDestroyPipeline(device, graphicsPipeline, nullptr);
-    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-    vkDestroyRenderPass(device, renderPass, nullptr ); 
-    for (auto imageView : swapChainImageViews) {
-        vkDestroyImageView(device, imageView, nullptr);
-    }
-    vkDestroySwapchainKHR(device, swapChain, nullptr);
+
     vkDestroyDevice(device, nullptr);
+
     if (enableValidationLayers) {
         DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     }
+
     vkDestroySurfaceKHR(instance, surface, nullptr);
     vkDestroyInstance(instance, nullptr);
+
     glfwDestroyWindow(window);
+
     glfwTerminate();
 }
