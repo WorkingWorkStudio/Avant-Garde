@@ -11,10 +11,6 @@ else
 	DEBUGFLAGS = -g
 endif
 
-# OpenTest: ./src/main.cpp
-# 	glslc src/shaders/shader.vert -o vert.spv
-# 	glslc src/shaders/shader.frag -o frag.spv
-# 	g++ $(CFLAGS) src/test.cpp -o a.out $(LDFLAGS) $(DEBUGFLAGS)
 OpenTest: ./src/main.cpp
 	glslc src/shaders/shader.vert -o vert.spv
 	glslc src/shaders/shader.frag -o frag.spv
