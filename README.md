@@ -16,7 +16,7 @@ Feel free to take a look at our [Kanban](https://docs.google.com/drawings/d/1AZ9
 TBD
 
 ### MacOS
-Using any code editor and terminal running shell script:
+Using any code editor and terminal running shell script (VSCode Compatible):
 1. Install Homebrew if you don't already have it:
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -25,7 +25,7 @@ Using any code editor and terminal running shell script:
 ```
 brew install cmake glfw
 ```
-3. Install [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh`.
+3. Install [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh` within the cloned repository.
 4. Clone repository
 5. From the repository's root directory, run the following commands:
 ```
@@ -36,7 +36,8 @@ cd dev
 ```
 chmod +x build_unix.sh
 ```
-NOTE: [exe Disassembler](https://dogbolt.org/)
+Helpful Tools: [.exe Disassembler](https://dogbolt.org/)
+
 👍 You are ready for development!
 
 ### Linux
