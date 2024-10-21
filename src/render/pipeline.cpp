@@ -12,8 +12,13 @@
 #include "AvantGardeRender.hpp"
 
 void AvantGardeRender::createGraphicsPipeline() {
+    #ifdef __APPLE__
+    auto vertShaderCode = readFile("./build/shader.vert.spv");
+    auto fragShaderCode = readFile("./build/shader.frag.spv");
+    #else
     auto vertShaderCode = readFile("./vert.spv");
     auto fragShaderCode = readFile("./frag.spv");
+    #endif
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 

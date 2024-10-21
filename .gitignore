@@ -6,6 +6,7 @@
 
 # Visual Studio extensions
 *.sln
+.vscode
 
 # Compiled Object files
 *.slo

@@ -35,7 +35,7 @@ else()
     message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
 endif()
  
- 
+
 # 2. Set GLFW_PATH in .env.cmake to target specific glfw
 if (DEFINED GLFW_PATH)
   message(STATUS "Using GLFW path specified in .env")
@@ -47,7 +47,9 @@ if (DEFINED GLFW_PATH)
     set(GLFW_LIB "${GLFW_PATH}/lib-mingw-w64") # 2.1 make sure matches glfw mingw subdirectory
   endif()
 else()
-  find_package(glfw3 3.4 REQUIRED)
+  find_package(glfw3 3.4 REQUIRED HINTS
+    /opt/homebrew/Cellar
+  )
   set(GLFW_LIB glfw)
   message(STATUS "Found GLFW")
 endif()
@@ -71,8 +73,8 @@ add_executable(${PROJECT_NAME} ${SOURCES})
  
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
  
-set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
- 
+set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/../build")
+
 if (WIN32)
   message(STATUS "CREATING BUILD FOR WINDOWS")
  
@@ -86,7 +88,7 @@ if (WIN32)
   endif()
  
   target_include_directories(${PROJECT_NAME} PUBLIC
-    ${PROJECT_SOURCE_DIR}/src
+    ../src
     ${Vulkan_INCLUDE_DIRS}
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}

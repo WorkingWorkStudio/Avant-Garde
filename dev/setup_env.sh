@@ -1,6 +1,6 @@
 # put where you saved your VulkanSDK, for example:
-export VULKAN_SDK = ~/VulkanSDK/1.3.290.0/macOS
-# ONLY MODIFY here  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+export VULKAN_SDK=~/VulkanSDK/1.3.296.0/macOS
+# ONLY MODIFY here^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 # DON'T CHANGE
 export PATH=$VULKAN_SDK/bin:$PATH

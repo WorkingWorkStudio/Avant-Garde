@@ -12,6 +12,7 @@
 #include <array>
 #include <optional>
 #include <cstdint>
+#include <iostream>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -110,9 +111,13 @@ class AvantGardeRender {
 public:
     void run() {
         initWindow();
+        std::cout << "window initiated\n";
         initVulkan();
+        std::cout << "vulkan initiated\n";
         mainLoop();
+        std::cout << "main loop completed\n";
         cleanup();
+        std::cout << "cleanup completed\n";
     }
 
 private:
