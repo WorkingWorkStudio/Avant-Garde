@@ -17,16 +17,16 @@ TBD
 
 ### MacOS
 Using any code editor and terminal running shell script (VSCode Compatible):
-1. Install Homebrew if you don't already have it:
+1. Clone this repository
+2. Install Homebrew if you don't already have it:
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-2. Install CMake & GLFW with Brew:
+3. Install CMake & GLFW with Brew:
 ```
 brew install cmake glfw
 ```
-3. Install [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh` within the cloned repository.
-4. Clone repository
+4. Install [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh` within the cloned repository.
 5. From the repository's root directory, run the following commands:
 ```
 cd dev
