@@ -24,9 +24,9 @@ Using any code editor and terminal running shell script (VSCode Compatible):
 ```
 3. Install CMake & GLFW with Brew:
 ```
-brew install cmake glfw
+brew install cmake glfw vulkan-headers glm
 ```
-4. Install the latest [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac) (1.3.296.0), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh` within the cloned repository. Select `System Global Installation` and `GLM Header` when prompted.
+4. Install the latest [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#mac) (1.3.296.0), recommend putting the folder in the home folder i.e. `~` or `/Users/[username]` and name the folder VulkanSDK. If you installed else where or named differently, you need the modify the folder location in `/dev/setup_env.sh` within the cloned repository. Select `System Global Installation` when prompted.
 5. From the repository's root directory, run the following commands:
 ```
 cd dev
