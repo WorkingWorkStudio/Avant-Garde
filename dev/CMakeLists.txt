@@ -67,7 +67,7 @@ if (NOT TINYOBJ_PATH)
   set(TINYOBJ_PATH external/tinyobjloader)
 endif()
 
-file(GLOB_RECURSE SOURCES "../src/*.cpp")
+file(GLOB_RECURSE SOURCES "../src1/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
  
@@ -88,7 +88,7 @@ if (WIN32)
   endif()
  
   target_include_directories(${PROJECT_NAME} PUBLIC
-    ../src
+    ../src1
     ${Vulkan_INCLUDE_DIRS}
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}
