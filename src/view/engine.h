@@ -1,124 +1,16 @@
-#ifndef __AVANTGARDE_H__
-#define __AVANTGARDE_H__
+#pragma once
 
-#include <vulkan/vulkan_core.h>
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <string>
-#include <cstring>
-#include <cstdlib>
-#include <vector>
-#include <array>
-#include <optional>
-#include <cstdint>
-#include <iostream>
+#include "../config.h"
+#include "../model/scene.h"
 
-const uint32_t WIDTH = 800;
-const uint32_t HEIGHT = 600;
+class Engine {
 
-const std::vector<const char*> validationLayers = {
-    "VK_LAYER_KHRONOS_validation"
-};
-
-const int MAX_FRAMES_IN_FLIGHT = 2;
-
-#ifdef __APPLE__
-const std::vector<const char *> deviceExtensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset"
-};
-#else
-const std::vector<const char *> deviceExtensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
-#endif
-
-#define VK_INSTANCE_LAYERS = "VK_LAYER_MESA_overlay";
-
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
-
-VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
-
-void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
-
-struct QueueFamilyIndices {
-    std::optional<uint32_t> graphicsFamily;
-    std::optional<uint32_t> presentFamily;
-
-    bool isComplete() {
-        return presentFamily.has_value() && graphicsFamily.has_value();
-    }
-};
-
-struct SwapChainSupportDetails {
-    VkSurfaceCapabilitiesKHR capabilities;
-    std::vector<VkSurfaceFormatKHR> formats;
-    std::vector<VkPresentModeKHR> presentModes;
-};
-
-struct Vertex {
-    glm::vec2 pos;
-    glm::vec3 color;
-
-    static VkVertexInputBindingDescription getBindingDescription() {
-        VkVertexInputBindingDescription bindingDescription{};
-        bindingDescription.binding = 0;
-        bindingDescription.stride = sizeof(Vertex);
-        bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-        return bindingDescription;
-    }
-
-    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
-
-        attributeDescriptions[0].binding = 0;
-        attributeDescriptions[0].location = 0;
-        attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
-        attributeDescriptions[0].offset = offsetof(Vertex, pos);
-
-        attributeDescriptions[1].binding = 0;
-        attributeDescriptions[1].location = 1;
-        attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-        attributeDescriptions[1].offset = offsetof(Vertex, color);
-
-        return attributeDescriptions;
-    }
-};
-
-struct UniformBufferObject {
-    alignas(16) glm::mat4 model;
-    alignas(16) glm::mat4 view;
-    alignas(16) glm::mat4 proj;
-};
-
-const std::vector<Vertex> vertices = {
-    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-};
-
-const std::vector<uint16_t> indices = {
-    0, 1, 2, 2, 3, 0
-};
-
-class AvantGardeRender {
 public:
-    void run() {
-        initWindow();
-        std::cout << "window initiated\n";
-        initVulkan();
-        std::cout << "vulkan initiated\n";
-        mainLoop();
-        std::cout << "main loop completed\n";
-        cleanup();
-        std::cout << "cleanup completed\n";
-    }
+    Engine(int width, int height, GLFWwindow* window);
+
+    ~Engine();
+
+    void render(Scene* scene);
 
 private:
     GLFWwindow* window;
@@ -231,6 +123,84 @@ private:
     void mainLoop();
     void drawFrame();
     void updateUniformBuffer(uint32_t currentImage);
-};
 
-#endif
+
+
+
+
+    // // glfw
+    // int width;
+    // int height;
+    // GLFWwindow* window;
+
+    // // instance
+    // VkInstance instance;
+    // VkDebugUtilsMessengerEXT debugMessenger;
+    // VkSurfaceKHR surface;
+
+    // // device
+    // VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+    // VkDevice device;
+    // VkQueue graphicsQueue;
+    // VkQueue presentQueue;
+    // VkSwapchainKHR swapChain;
+    // std::vector<VkImage> swapChainImages;
+    // VkFormat swapChainImageFormat;
+    // VkExtent2D swapChainExtent;
+    // std::vector<VkImageView> swapChainImageViews;
+
+    // // pipeline
+    // VkRenderPass renderPass;
+    // VkDescriptorSetLayout descriptorSetLayout;
+    // VkPipelineLayout pipelineLayout;
+    // VkPipeline graphicsPipeline;
+    // std::vector<VkFramebuffer> swapChainFramebuffers;
+
+    // // command
+    // VkCommandPool commandPool;
+    // VkDescriptorPool descriptorPool;
+    // std::vector<VkDescriptorSet> descriptorSets;
+    // std::vector<VkCommandBuffer> commandBuffers;
+
+    // // synchronization objects
+    // std::vector<VkSemaphore> imageAvailableSemaphores;
+    // std::vector<VkSemaphore> renderFinishedSemaphores;
+    // std::vector<VkFence> inFlightFences;
+    // uint32_t currentFrame = 0;
+    // bool framebufferResized = false;
+
+    // // asset pointers
+    // VkBuffer vertexBuffer;
+    // VkDeviceMemory vertexBufferMemory;
+    // VkBuffer indexBuffer;
+    // VkDeviceMemory indexBufferMemory;
+    // std::vector<VkBuffer> uniformBuffers;
+    // std::vector<VkDeviceMemory> uniformBuffersMemory;
+    // std::vector<void*> uniformBuffersMapped;
+
+    // // instance setup
+    // void create_instance();
+
+    // // device setup
+    // void create_device();
+    // void create_swapchain();
+    // void recreate_swapchain();
+
+    // // pipeline setup
+    // void create_pipeline();
+
+    // //final setup steps
+    // void finalize_setup();
+    // void create_framebuffers();
+    // void create_frame_sync_objects();
+
+    // // asset creation
+    // void create_assets();
+    
+    // // draw
+    // void prepare_scene(VkCommandBuffer commandBuffer);
+    // void record_draw_commands(VkCommandBuffer commandBuffer, uint32_t imageIndex, Scene* scene);
+
+    // // cleanup functions
+    // void cleanup_swapchain();
+}

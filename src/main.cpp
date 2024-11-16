@@ -1,17 +1,11 @@
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include "./render/AvantGardeRender.hpp"
-
+#include "./controller/app.h"
 
 int main() {
-    AvantGardeRender app;
+    App* avant_garde_app = new App(1920, 1080, true);
 
     try {
-        app.run();
+        avant_garde_app->run();
+        delete avant_garde_app;
     }
     catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
