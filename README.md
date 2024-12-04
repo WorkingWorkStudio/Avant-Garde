@@ -36,9 +36,9 @@ cd dev
 ```
 chmod +x build_unix.sh
 ```
-Helpful Tools: [.exe Disassembler](https://dogbolt.org/)
-
 👍 You are ready for development!
+
+Helpful Tools: [.exe Disassembler](https://dogbolt.org/)
 
 ### Linux
 TBD
